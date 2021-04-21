@@ -8,8 +8,9 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 
 
+
 class Films:
-    def __init__(self, titre, annee, certificate, duree, genres, stars, metascore):
+    def __init__(self, titre, annee, certificate, duree, genres, stars, metascore, vote, description):
         self.titre = titre
         self.annee = annee 
         self.certificate = certificate
@@ -17,9 +18,11 @@ class Films:
         self.stars = stars 
         self.genre = genres
         self.duree = duree
-
+        self.vote = vote
+        self.description = description
+        
     def get_json(self):
-        return {'titre': self.titre, 'année': self.annee, 'certificate': self.certificate, 'genre': self.genre, 'durée': self.duree, 'metascore':self.metascore, 'stars': self.stars }
+        return {'titre': self.titre, 'année': self.annee, 'certificate': self.certificate, 'genre': self.genre, 'durée': self.duree, 'metascore':self.metascore, 'stars': self.stars, 'votes': self.vote, 'description': self.description}
 
 class Scraper:
     def __init__(self):
@@ -69,7 +72,13 @@ class Scraper:
                 try: metascore = int(film.find_element_by_xpath('.//div[3]/span').text)
                 except: metascore = None 
                 
-                film = Films(titre, annee, certificate, duree, genres, stars, metascore)
+                try: vote = int(film.find_element_by_xpath('.//div[3]/p[4]/span[2]').text)
+                except: vote = None 
+                
+                try: description = film.find_element_by_xpath('.//div[3]/p[2]').text
+                except: description = [] 
+                
+                film = Films(titre, annee, certificate, duree, genres, stars, metascore, vote, description)
                 self.films.append(film)
                 
                 print(film.titre)
