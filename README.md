@@ -1,6 +1,6 @@
 # Recommandation de film 
 
-### Modèle et base de données basés sur le site [imdb](https://www.imdb.com/) 
+### Modèle et base de données basés sur le site [IMDB](https://www.imdb.com/) 
  
 
 
