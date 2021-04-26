@@ -1,8 +1,0 @@
-version: '3'
-services:
-  chromedriver:
-    container_name: chromedriver
-    image: selenium/standalone-chrome:4.0.0-beta-3-prerelease-20210402
-    restart: always
-    ports: 
-        - "4444:4444"
