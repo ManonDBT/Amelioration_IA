@@ -9,7 +9,7 @@ st.title("Dashboard IMDb")
 st.sidebar.title("Sélectionner des graphiques visuels")
 st.sidebar.markdown("Sélectionnez les graphiques / graphiques en conséquence:")
   
-data = pd.read_csv("./IMDb movies.csv", sep=";")
+data = pd.read_csv("/Users/manon/Projet/Projet-SIMPLON/Amélioration/Data/movies2.csv", sep=";")
 
 country_df =  data[['title','country']].groupby(['country']).count().reset_index().rename(columns={'title':'nombre'})
 country_df = country_df.sort_values(by=['nombre'], ascending=False)
