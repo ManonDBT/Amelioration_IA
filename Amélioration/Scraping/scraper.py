@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 class Films:
-    def __init__(self, titre, annee, certificate, duree, genres, stars, metascore, vote, description):
+    def __init__(self, titre, annee, certificate, duree, genres, stars, metascore, vote, description, realisateur, acteur_1, acteur_2):
         self.titre = titre
         self.annee = annee 
         self.certificate = certificate
@@ -20,6 +20,9 @@ class Films:
         self.duree = duree
         self.vote = vote
         self.description = description
+        self.realisateur = realisateur
+        self.acteur_1 = acteur_1
+        self.acteur_2 = acteur_2
         
     def get_json(self):
         return {'titre': self.titre, 'année': self.annee, 'certificate': self.certificate, 'genre': self.genre, 'durée': self.duree, 'metascore':self.metascore, 'stars': self.stars, 'votes': self.vote, 'description': self.description}
@@ -78,7 +81,16 @@ class Scraper:
                 try: description = film.find_element_by_xpath('.//div[3]/p[2]').text
                 except: description = [] 
                 
-                film = Films(titre, annee, certificate, duree, genres, stars, metascore, vote, description)
+                try: realisateur = film.find_element_by_xpath('.//div[3]/p[3]').text
+                except: realisateur = [] 
+                
+                try: acteur_1 = film.find_element_by_xpath('.//div[3]/p[4][1]').text
+                except: acteur_1 = [] 
+                
+                try: acteur_2 = film.find_element_by_xpath('.//div[3]/p[4][2]').text
+                except: acteur_2 = [] 
+                
+                film = Films(titre, annee, certificate, duree, genres, stars, metascore, vote, description, realisateur, acteur_1, acteur_2)
                 self.films.append(film)
                 
                 print(film.titre)

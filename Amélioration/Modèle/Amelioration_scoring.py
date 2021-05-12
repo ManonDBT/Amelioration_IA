@@ -6,6 +6,7 @@ import math
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 
+
 imdb = pd.read_csv("Amélioration/Data/movies2.csv", encoding="latin-1")
 
 def convert_to_int(string):
