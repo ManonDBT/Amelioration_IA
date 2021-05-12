@@ -63,16 +63,25 @@ if __name__ == "__main__":
       y[i] = int(float(y[i])*10)
             
    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.3, random_state=42)
-   
+
+
+def fetch_logged_data(run_id):
+    client = mlflow.tracking.MlflowClient()
+    data = client.get_run(run_id).data
+    tags = {k: v for k, v in data.tags.items() if not k.startswith("mlflow.")}
+    artifacts = [f.path for f in client.list_artifacts(run_id, "model")]
+    return data.params, data.metrics, tags, artifacts
+
+
 # enable autologging
 mlflow.sklearn.autolog()
 
 
 with mlflow.start_run():
-   model = RandomForestClassifier()
-   model.fit(X_train, y_train)
+    model = RandomForestClassifier()
+    model.fit(X_train, y_train)
       
-   y_pred = model.predict(X_test)
+   params, metrics, tags, artifacts = fetch_logged_data(run.info.run_id)
       
    (f1, recall, precision, acc, rmse, mae, r2) =  eval_metrics(y_test, y_pred)
       
