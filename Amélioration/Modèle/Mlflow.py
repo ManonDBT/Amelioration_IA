@@ -78,26 +78,25 @@ mlflow.sklearn.autolog()
 
 
 with mlflow.start_run():
-    model = RandomForestClassifier()
+    model = LogisticRegression()
     model.fit(X_train, y_train)
-      
-   params, metrics, tags, artifacts = fetch_logged_data(run.info.run_id)
-      
-   (f1, recall, precision, acc, rmse, mae, r2) =  eval_metrics(y_test, y_pred)
-      
-   print("  Precision: %s" % precision)
-   print("  Recall: %s" % recall)
-   print("  F1-score: %s" % f1)
-   print("  accuracy: %s" % acc)
-   print("  rmse: %s" % rmse)
-   print("  mae: %s" % mae)
-   print("  r2: %s" % r2)
 
-   mlflow.log_metric("precision", precision)
-   mlflow.log_metric("F1-score", f1)
-   mlflow.log_metric("recall", recall)
-   mlflow.log_metric("accuracy", acc)
-   mlflow.log_metric("rmse", rmse)
-   mlflow.log_metric("mae", mae)
-   mlflow.log_metric("r2", r2)
+    y_pred = model.predict(X_test)
+    (f1, recall, precision, acc, rmse, mae, r2) =  eval_metrics(y_test, y_pred)
+
+    print("  Precision: %s" % precision)
+    print("  Recall: %s" % recall)
+    print("  F1-score: %s" % f1)
+    print("  accuracy: %s" % acc)
+    print("  rmse: %s" % rmse)
+    print("  mae: %s" % mae)
+    print("  r2: %s" % r2)
+
+    mlflow.log_metric("precision", precision)
+    mlflow.log_metric("F1-score", f1)
+    mlflow.log_metric("recall", recall)
+    mlflow.log_metric("accuracy", acc)
+    mlflow.log_metric("rmse", rmse)
+    mlflow.log_metric("mae", mae)
+    mlflow.log_metric("r2", r2)
       

@@ -1,7 +1,7 @@
-
-import gradio as gr
+import pytest
 import joblib
 import pandas as pd
+
 
 model = joblib.load('Amélioration/Modèle/model_amelioration.pkl')
 imdb = pd.read_csv("/Users/manon/Projet/Projet-SIMPLON/Amélioration/Data/movies2.csv", encoding="latin-1")
@@ -20,7 +20,7 @@ def convert_to_int(string):
 
 def predict(realisateur, acteur_1, acteur_2, genre):
       realisateur = realisateur.lower()
-      realisateur = convert_to_int(realisateur) 
+      realisateur = convert_to_int(realisateur)
       acteur_1 = acteur_1.lower()
       acteur_1 = convert_to_int(acteur_1)
       acteur_2 = acteur_2.lower()
@@ -30,19 +30,10 @@ def predict(realisateur, acteur_1, acteur_2, genre):
       prediction = model.predict([[genre, acteur_1, realisateur, acteur_2]])
       return prediction[0]/10
 
-iface = gr.Interface(
-  predict,
-  [
-        gr.inputs.Textbox(label="realisateur"),
-        gr.inputs.Textbox(label="acteur 1"),
-        gr.inputs.Textbox(label="acteur 2"),
-        gr.inputs.Dropdown(["Adventure","Action", "Animation", "Biography", "Crime", "Comedy", "Drama", 
-                            "Horror", "Family",  "Fantasy", "Music", "Mystery", "Romance", "Sci-Fi"],label="genre")
-          
-        
-    ],
-    gr.outputs.Textbox(label="Score")).launch()
+def test_predict():
+    assert predict('test','test','test','test') == 7.5
 
 
-if __name__ == "__main__":
-    iface.launch()
+def test_convert():
+    assert convert_to_int('test') == 448
+
